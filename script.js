@@ -72,3 +72,50 @@ const products = [
     price: 999.99,
   },
 ];
+
+// Get DOM elements
+const productsWrapperEl = document.getElementById("products-wrapper");
+const checkBoxEls = document.querySelectorAll(".check");
+const filtersContainerEl = document.getElementById("filters-container");
+const searchInput = document.getElementById("search");
+const cartButton = document.getElementById("cart-button");
+const cartCount = document.getElementById("cart-count");
+
+// Initialize cart item count
+let cartItemCount = 0;
+
+// Initialize products
+const productsEls = [];
+
+// Create product element function
+const createProductElement = (product) => {
+  const productEl = document.createElement("div");
+  productEl.className = "item space-y-2";
+
+  productEl.innerHTML = `
+    <div
+        class="bg-gray-100 flex-justify-center relative overflow-hidden group cursor-pointer border"
+    >
+    <img
+        src="${product.url}"
+        class="w-full h-full object-cover"
+        alt="${product.name}"
+    />
+    <span
+        class="status bg-black text-white absolute bottom-0 left-0 right-0 text-center py-2 translate-y-full transition group-hover:translate-y-0"
+        >Add to Cart</span
+    >
+    </div>
+    <p class="text-xl">${product.name}</p>
+    <strong>$${product.price.toLocaleString()}</strong>
+  `;
+
+  return productEl;
+};
+
+// Loop over the products and create the product elements
+products.forEach((product) => {
+  const productEl = createProductElement(product);
+  productsEls.push(productEl);
+  productsWrapperEl.appendChild(productEl);
+});
