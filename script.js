@@ -146,3 +146,35 @@ products.forEach((product) => {
   productsEls.push(productEl);
   productsWrapperEl.appendChild(productEl);
 });
+
+// filter products by search or checkbox
+const filterProducts = (e) => {
+  // get search term
+  const searchTerm = searchInput.value.trim().toLowerCase();
+
+  // get checked categories
+  const category = Array.from(checkBoxEls)
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => checkbox.id);
+
+  // Loop over products and check for matches
+  productsEls.forEach((productEl, i) => {
+    const product = products[i];
+
+    // check to see if product matches the search or checked items
+    const matchesSearchTerm = product.name.toLowerCase().includes(searchTerm);
+    const isInCheckedCategory =
+      category.length === 0 || category.includes(product.type);
+
+    // show or hide products based on matches
+    if (matchesSearchTerm && isInCheckedCategory) {
+      productEl.classList.remove("hidden");
+    } else {
+      productEl.classList.add("hidden");
+    }
+  });
+};
+
+// Add filter event listeners
+filtersContainerEl.addEventListener("change", filterProducts);
+searchInput.addEventListener("input", filterProducts);
